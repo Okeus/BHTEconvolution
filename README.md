@@ -1,2 +1,2 @@
 # BHTEconvolution
-Simulates HIFU heating using by convolution of the temperature field with a Gaussian convolution kernel. She is fast.
+Simulates HIFU heating by convolution of the temperature field with a Gaussian convolution kernel. 
