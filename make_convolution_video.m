@@ -3,8 +3,8 @@ function make_convolution_video(T,dt)
     [xx yy tt]=size(T);
     figure;
     pathName=pwd;
-    zz=fullfile(pathName,'gaussianConvolution_Tin.avi');
-    writerObj = VideoWriter(zz);
+    zz=fullfile(pathName,'gaussianConvolution_Tin.MP4');
+    writerObj = VideoWriter(zz,'MPEG-4');
     writerObj.FrameRate=3;
     open(writerObj);
     vmin=0;

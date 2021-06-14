@@ -3,9 +3,9 @@ function make_fp_plot(XXX,T)
     pathName=pwd;
     zz=fullfile(pathName,'fp_plot.png');
     plot(XXX,squeeze(T(64,64,:)));
-    title('Focal Temperature, °C');
+    title('Focal Temperature, Â°C');
     xlabel('time, s')
-    ylabel('°C')
+    ylabel('ï¿½C')
     grid on;
     grid minor;
     hold off;

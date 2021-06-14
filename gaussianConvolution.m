@@ -78,6 +78,6 @@ size(XXX)
 size(T)
 make_fp_plot(XXX,T)
 make_intTemp_plot(XXX,T)
-%make_convolution_video(T,dt)
+make_convolution_video(T,dt)
 
 toc

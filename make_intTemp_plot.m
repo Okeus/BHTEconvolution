@@ -10,9 +10,9 @@ function make_intTemp_plot(XXX,T)
         intTemp(gg)=sum(zu(:));
     end
     plot(XXX,squeeze(intTemp));
-    title('Integral Temperature, °C');
+    title('Integral Temperature, Â°C');
     xlabel('time, s')
-    ylabel('°C*mm2')
+    ylabel('ï¿½C*mm2')
     grid on;
     grid minor;
     hold off;
