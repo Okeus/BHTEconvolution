@@ -4,8 +4,8 @@ function make_fp_plot(XXX,T)
     zz=fullfile(pathName,'fp_plot.png');
     plot(XXX,squeeze(T(64,64,:)));
     title('Focal Temperature, °C');
-    xlabel('time, s')
-    ylabel('�C')
+    xlabel('$\mathit{time,\,s}$','Interpreter','Latex')
+    ylabel('$\mathit{^{\circ} C}$','Interpreter','Latex')  
     grid on;
     grid minor;
     hold off;

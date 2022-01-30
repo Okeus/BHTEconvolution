@@ -1,6 +1,18 @@
 %This program simulates HIFU heating using convolution of the Gaussian heat
 %kernel
 
+%Transducer Percent Power and Acoustic Power
+%15%,19.2 W
+%20%,32.3 W
+%25,48.1 W
+%30,67.4 W (~2.7 MPa Ppk-pk)
+%35,88.7 W
+%40,110 W
+
+%Regression of values above.
+%Acoustic Power (Watts) = 3.671*Amplitude-40.01;
+%Maximum acoustic power = 327 W.
+
 clear all; clf; close all;
 opengl software
 tic
@@ -18,6 +30,9 @@ cx=64;cy=64;
 Pa=48;
 rho=1050; %density
 ct=3617	; %specific heat of blood
+
+acoustic_power= 3.671*Pa-40.01;
+max_acoustic_power = 3.671*100-40.01;
 
 %dc=0.05; %MR-ARFI
 dc=0.90; %MRT
@@ -46,7 +61,8 @@ for rt=1:(th+tc)
 end
 
 %alpa=0.154; %Np/m for water.
-alpa=1.61*1E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
+%alpa=1.61*1E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
+alpa=1.6E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
 
 % if exist('intensity3d','var') == 0
 %     load('matrice3D_intensity.mat');
@@ -55,7 +71,8 @@ alpa=1.61*1E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
 
 load('int4d.mat');
 int4d=int4d(:,:,2); %use only 2d convolution
-phio=2*dc*Pa*alpa*int4d; %converts intensity to heat.
+%phio=2*dc*(Pa)*alpa*int4d; %converts intensity to heat. Q/mm3
+phio=2*dc*(acoustic_power)*alpa*int4d/max(int4d(:)); %converts intensity to heat. Q/mm3
 T(:,:,1)=zeros([xx yy]);
 tcf=0; %temperature at end of cooling.  initialized at zero.
 
@@ -76,8 +93,9 @@ gather(G2);gather(phio);gather(T);
 XXX=(0:tt);
 size(XXX)
 size(T)
-make_fp_plot(XXX,T)
-make_intTemp_plot(XXX,T)
-make_convolution_video(T,dt)
+%make_fp_plot(XXX,T)
+%make_intTemp_plot(XXX,T)
+make_fp_tint_plot(XXX,T)
+%make_convolution_video(T,dt)
 
 toc
