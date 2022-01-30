@@ -27,11 +27,12 @@ zz=5;
 
 dx=.001;dy=.001;dz=.005;
 cx=64;cy=64;
+amp=25;
 Pa=48;
 rho=1050; %density
 ct=3617	; %specific heat of blood
 
-acoustic_power= 3.671*Pa-40.01;
+acoustic_power= Pa;
 max_acoustic_power = 3.671*100-40.01;
 
 %dc=0.05; %MR-ARFI
@@ -71,8 +72,8 @@ alpa=1.6E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
 
 load('int4d.mat');
 int4d=int4d(:,:,2); %use only 2d convolution
-%phio=2*dc*(Pa)*alpa*int4d; %converts intensity to heat. Q/mm3
-phio=2*dc*(acoustic_power)*alpa*int4d/max(int4d(:)); %converts intensity to heat. Q/mm3
+phio=2*dc*(amp)*alpa*int4d; %converts intensity to heat. Q/mm3
+%phio=2*dc*(acoustic_power)*alpa*int4d/max(int4d(:)); %converts intensity to heat. Q/mm3
 T(:,:,1)=zeros([xx yy]);
 tcf=0; %temperature at end of cooling.  initialized at zero.
 
