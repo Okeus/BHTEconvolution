@@ -21,8 +21,8 @@ dt=1;
 
 %The coordinates must be odd so the focal falls at an actual central
 %coordinate.  Otherwise, the point will shift position.
-xx=127;
-yy=127;
+xx=128;
+yy=128;
 zz=5;
 
 dx=.001;dy=.001;dz=.005;
@@ -38,8 +38,8 @@ max_acoustic_power = 3.671*100-40.01;
 %dc=0.05; %MR-ARFI
 dc=0.90; %MRT
 th=33; %heating time.  dynamics * time step.
-tc=95; %cooling timme. dynamics * time step.
-nsh=3; %number of shots
+tc=35; %cooling timme. dynamics * time step.
+nsh=1; %number of shots
 Tb=0;
 tt=nsh*(th+tc); %total time
 T=Tb*ones(xx,yy,tt,'double'); %initialize temperature matrix
@@ -63,16 +63,23 @@ end
 
 %alpa=0.154; %Np/m for water.
 %alpa=1.61*1E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
-alpa=1.6E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
+alpa=1.1E-3; % need units Np.mm-1.  %attenuation absorption coefficient.
 
 % if exist('intensity3d','var') == 0
 %     load('matrice3D_intensity.mat');
 % end
 % int4d=intensity3d(42:end-39,42:end-39,211-31:31:211+31); %get region corresponding to simulation size.
 
-load('int4d.mat');
-int4d=int4d(:,:,2); %use only 2d convolution
+% load('int4d.mat');
+% int4d=int4d(:,:,2); %use only 2d convolution
+v=load('intensity_deconvolution.mat');
+int4d=v.var;
 phio=2*dc*(amp)*alpa*int4d; %converts intensity to heat. Q/mm3
+
+% amax=max(int4d,[],'all')
+% bmax=max(phio,[],'all')
+% pause
+
 %phio=2*dc*(acoustic_power)*alpa*int4d/max(int4d(:)); %converts intensity to heat. Q/mm3
 T(:,:,1)=zeros([xx yy]);
 tcf=0; %temperature at end of cooling.  initialized at zero.
@@ -98,5 +105,20 @@ size(T)
 %make_intTemp_plot(XXX,T)
 make_fp_tint_plot(XXX,T)
 %make_convolution_video(T,dt)
+
+[x,y,t]=size(T);
+amax=max(T,[],'all')
+figure
+for u=1:t
+    h = pcolor(T(:,:,u));
+    set(h, 'EdgeColor', 'none');
+    hc=colorbar; 
+    title(hc,'T,°C');
+    caxis([0 amax]);
+    pause(.05)
+end
+save('conv_temp.mat','T')
+
+
 
 toc
